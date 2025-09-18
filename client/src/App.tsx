@@ -13,6 +13,7 @@ import Dashboard from "@/pages/dashboard";
 import AdminDashboard from "@/pages/admin-dashboard";
 import AddSweetPage from "@/pages/add-sweet-page";
 import AnalyticsPage from "@/pages/analytics-page";
+import SalesPage from "@/pages/sales-page";
 import AuthPage from "@/pages/auth-page";
 import NotFound from "@/pages/not-found";
 
@@ -23,7 +24,7 @@ function Router() {
       <Route path="/" component={Dashboard} />
       <Route path="/inventory" component={AdminDashboard} />
       <Route path="/add-sweet" component={AddSweetPage} />
-      <Route path="/sales" component={Dashboard} />
+      <Route path="/sales" component={SalesPage} />
       <Route path="/analytics" component={AnalyticsPage} />
       <Route path="/settings" component={() => (
         <div className="p-8 text-center">

@@ -1,6 +1,10 @@
 import { useState } from "react"
 import { SweetCard } from "@/components/sweet-card"
 import { SearchFilter } from "@/components/search-filter"
+import { ShoppingCart } from "@/components/shopping-cart"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { useToast } from "@/hooks/use-toast"
 import heroImage from "@assets/generated_images/Sweet_shop_product_display_5ffd20d5.png"
 
 // Mock sweets data - todo: remove mock functionality
@@ -17,13 +21,24 @@ const mockSweets = [
 
 const categories = Array.from(new Set(mockSweets.map(sweet => sweet.category)))
 
+interface CartItem {
+  id: string
+  name: string
+  category: string
+  price: number
+  quantity: number
+  maxQuantity: number
+}
+
 export default function Dashboard() {
   const [filteredSweets, setFilteredSweets] = useState(mockSweets)
+  const [cartItems, setCartItems] = useState<CartItem[]>([])
   const [filters, setFilters] = useState({
     search: "",
     category: "",
     priceRange: ""
   })
+  const { toast } = useToast()
 
   const handleSearch = (query: string) => {
     console.log("Search query:", query)
@@ -69,30 +84,80 @@ export default function Dashboard() {
     setFilteredSweets(filtered)
   }
 
-  const handlePurchase = (sweetId: string) => {
-    console.log("Purchase sweet:", sweetId)
-    // Update quantity in mock data
-    const updatedSweets = mockSweets.map(sweet =>
-      sweet.id === sweetId && sweet.quantity > 0
-        ? { ...sweet, quantity: sweet.quantity - 1 }
-        : sweet
-    )
-    // Update both original and filtered data
-    setFilteredSweets(updatedSweets.filter(sweet => {
-      let matches = true
-      if (filters.search) {
-        matches = matches && (sweet.name.toLowerCase().includes(filters.search.toLowerCase()) ||
-                             sweet.category.toLowerCase().includes(filters.search.toLowerCase()))
+  const handleAddToCart = (sweetId: string) => {
+    const sweet = mockSweets.find(s => s.id === sweetId)
+    if (!sweet || sweet.quantity === 0) return
+
+    console.log("Add to cart:", sweetId)
+    
+    const existingCartItem = cartItems.find(item => item.id === sweetId)
+    
+    if (existingCartItem) {
+      if (existingCartItem.quantity >= sweet.quantity) {
+        toast({
+          title: "Cannot add more",
+          description: "You've reached the maximum available quantity for this item.",
+          variant: "destructive"
+        })
+        return
       }
-      if (filters.category) {
-        matches = matches && sweet.category === filters.category
+      
+      setCartItems(prev => prev.map(item =>
+        item.id === sweetId 
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      ))
+    } else {
+      const newCartItem: CartItem = {
+        id: sweet.id,
+        name: sweet.name,
+        category: sweet.category,
+        price: sweet.price,
+        quantity: 1,
+        maxQuantity: sweet.quantity
       }
-      if (filters.priceRange) {
-        const [min, max] = filters.priceRange.split("-").map(Number)
-        matches = matches && sweet.price >= min && sweet.price <= max
-      }
-      return matches
-    }))
+      setCartItems(prev => [...prev, newCartItem])
+    }
+
+    toast({
+      title: "Added to cart",
+      description: `${sweet.name} has been added to your cart.`,
+    })
+  }
+
+  const handleCartQuantityUpdate = (sweetId: string, newQuantity: number) => {
+    if (newQuantity === 0) {
+      setCartItems(prev => prev.filter(item => item.id !== sweetId))
+    } else {
+      setCartItems(prev => prev.map(item =>
+        item.id === sweetId ? { ...item, quantity: newQuantity } : item
+      ))
+    }
+  }
+
+  const handleRemoveFromCart = (sweetId: string) => {
+    setCartItems(prev => prev.filter(item => item.id !== sweetId))
+    
+    const sweet = mockSweets.find(s => s.id === sweetId)
+    if (sweet) {
+      toast({
+        title: "Removed from cart",
+        description: `${sweet.name} has been removed from your cart.`,
+      })
+    }
+  }
+
+  const handleCheckout = (customerInfo: { name: string; email: string }) => {
+    console.log("Processing checkout:", { customerInfo, items: cartItems })
+    
+    // Simulate order processing
+    setTimeout(() => {
+      toast({
+        title: "Order placed successfully!",
+        description: `Thank you ${customerInfo.name}! Your order has been received and will be processed shortly.`,
+      })
+      setCartItems([]) // Clear cart after successful checkout
+    }, 1000)
   }
 
   return (
@@ -118,17 +183,59 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Search and Filter */}
-      <SearchFilter
-        onSearch={handleSearch}
-        onCategoryFilter={handleCategoryFilter}
-        onPriceFilter={handlePriceFilter}
-        categories={categories}
-        activeFilters={{
-          category: filters.category,
-          priceRange: filters.priceRange
-        }}
-      />
+      {/* Featured Categories */}
+      <div className="flex flex-wrap gap-2 justify-center">
+        <Badge 
+          variant="outline" 
+          className="cursor-pointer hover-elevate text-sm px-4 py-2"
+          onClick={() => handleCategoryFilter("Chocolate")}
+        >
+          🍫 Chocolate
+        </Badge>
+        <Badge 
+          variant="outline" 
+          className="cursor-pointer hover-elevate text-sm px-4 py-2"
+          onClick={() => handleCategoryFilter("Gummy")}
+        >
+          🐻 Gummy Bears
+        </Badge>
+        <Badge 
+          variant="outline" 
+          className="cursor-pointer hover-elevate text-sm px-4 py-2"
+          onClick={() => handleCategoryFilter("Caramel")}
+        >
+          🍮 Caramel
+        </Badge>
+        <Badge 
+          variant="outline" 
+          className="cursor-pointer hover-elevate text-sm px-4 py-2"
+          onClick={() => handleCategoryFilter("Premium")}
+        >
+          💎 Premium
+        </Badge>
+      </div>
+
+      {/* Search and Filter with Cart */}
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex-1">
+          <SearchFilter
+            onSearch={handleSearch}
+            onCategoryFilter={handleCategoryFilter}
+            onPriceFilter={handlePriceFilter}
+            categories={categories}
+            activeFilters={{
+              category: filters.category,
+              priceRange: filters.priceRange
+            }}
+          />
+        </div>
+        <ShoppingCart
+          items={cartItems}
+          onUpdateQuantity={handleCartQuantityUpdate}
+          onRemoveItem={handleRemoveFromCart}
+          onCheckout={handleCheckout}
+        />
+      </div>
 
       {/* Results Summary */}
       <div className="flex items-center justify-between">
@@ -146,7 +253,7 @@ export default function Dashboard() {
           <SweetCard
             key={sweet.id}
             sweet={sweet}
-            onPurchase={handlePurchase}
+            onPurchase={handleAddToCart}
           />
         ))}
       </div>
