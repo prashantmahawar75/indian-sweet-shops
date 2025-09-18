@@ -20,7 +20,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { ShoppingCart, Plus, Minus, Trash2, CreditCard } from "lucide-react"
+import { ShoppingCart as CartIcon, Plus, Minus, Trash2, CreditCard } from "lucide-react"
 
 interface CartItem {
   id: string
@@ -75,7 +75,7 @@ export function ShoppingCart({ items, onUpdateQuantity, onRemoveItem, onCheckout
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>
           <Button variant="outline" className="relative gap-2" data-testid="button-open-cart">
-            <ShoppingCart className="h-4 w-4" />
+            <CartIcon className="h-4 w-4" />
             Cart
             {totalItems > 0 && (
               <Badge variant="destructive" className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center text-xs">
@@ -88,7 +88,7 @@ export function ShoppingCart({ items, onUpdateQuantity, onRemoveItem, onCheckout
         <SheetContent className="w-full sm:max-w-md">
           <SheetHeader>
             <SheetTitle className="flex items-center gap-2">
-              <ShoppingCart className="h-5 w-5" />
+              <CartIcon className="h-5 w-5" />
               Shopping Cart
             </SheetTitle>
             <SheetDescription>
@@ -99,7 +99,7 @@ export function ShoppingCart({ items, onUpdateQuantity, onRemoveItem, onCheckout
           <div className="flex flex-col gap-4 py-4 flex-1 overflow-auto">
             {items.length === 0 ? (
               <div className="text-center py-8">
-                <ShoppingCart className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+                <CartIcon className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
                 <p className="text-muted-foreground">Your cart is empty</p>
                 <p className="text-sm text-muted-foreground mt-1">Add some sweets to get started!</p>
               </div>
