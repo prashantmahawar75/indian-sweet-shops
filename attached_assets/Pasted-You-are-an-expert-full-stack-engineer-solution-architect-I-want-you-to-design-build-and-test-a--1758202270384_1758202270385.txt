@@ -1,0 +1,116 @@
+You are an expert full-stack engineer + solution architect.
+I want you to design, build, and test a Sweet Shop Management System using Test-Driven Development (TDD).
+
+Follow the requirements below strictly and generate backend, frontend, database, and tests.
+
+🎯 Objective
+
+Build a full-stack Sweet Shop Management System with backend API, database, frontend UI, authentication, role-based access, and inventory management.
+
+🛠 Backend (API Layer)
+
+Technology Options: Use Node.js + TypeScript (Express/NestJS) OR Python (FastAPI/Django) (pick one and stick with it).
+
+Database: PostgreSQL (preferred). No in-memory DB.
+
+Authentication: JWT-based token authentication.
+
+TDD First: Write test cases before implementation (unit + integration).
+
+API Endpoints
+Auth
+
+POST /api/auth/register → Register new user.
+
+POST /api/auth/login → Login user, return JWT.
+
+Sweets (Protected)
+
+POST /api/sweets → Add a new sweet.
+
+GET /api/sweets → View all sweets.
+
+GET /api/sweets/search → Search sweets by name, category, or price range.
+
+PUT /api/sweets/:id → Update sweet details.
+
+DELETE /api/sweets/:id → Delete a sweet (Admin only).
+
+Inventory (Protected)
+
+POST /api/sweets/:id/purchase → Purchase a sweet (decrease stock).
+
+POST /api/sweets/:id/restock → Restock a sweet (Admin only).
+
+Data Model (Sweet)
+
+id (UUID/Auto Increment)
+
+name (string, unique)
+
+category (string, e.g., Chocolate, Candy, etc.)
+
+price (decimal/float)
+
+quantity (int)
+
+User Roles
+
+Normal User → Can register, login, view sweets, purchase sweets.
+
+Admin → Can add, update, delete, restock sweets, and manage inventory.
+
+🎨 Frontend (SPA)
+
+Technology: React (preferred) OR Vue/Angular/Svelte.
+
+Styling: TailwindCSS + ShadCN UI (or equivalent modern UI library).
+
+Routing: React Router (if React).
+
+Authentication: JWT stored securely (httpOnly cookie/localStorage).
+
+Pages & Functionality
+Public
+
+Register Page (username, email, password).
+
+Login Page.
+
+Authenticated (User)
+
+Dashboard/Homepage: Display all available sweets.
+
+Search & Filter sweets by name, category, price.
+
+Purchase Button → Disabled if stock = 0.
+
+Profile page (basic).
+
+Admin
+
+Add Sweet Form.
+
+Update Sweet Form.
+
+Delete Sweet Action.
+
+Restock Sweet Action.
+
+Admin dashboard to manage sweets + inventory.
+
+Design Goals
+
+Responsive (mobile + desktop).
+
+Creative and visually appealing.
+
+Smooth UX with proper loading/error states.
+
+✅ Testing (TDD Requirement)
+
+Backend: Unit + integration tests for all endpoints.
+
+Frontend: Component + integration tests (Jest/React Testing Library).
+
+End-to-end (E2E): Cypress/Playwright test for user flows.
