@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Sweet Shop Management System
 
 A simplified full-stack web application for managing a sweet shop with customer browsing, purchasing, and admin inventory management features. Built according to the core requirements with user authentication, sweet catalog management, search functionality, and inventory operations.
@@ -158,11 +157,153 @@ npm test
 npm run test:coverage
 ```
 
-## 📄 License
+# 1. 🔐 User Authentication
+✅ POST /api/auth/register
+URL: http://localhost:5000/api/auth/register
+Method: POST
+Headers:
+Content-Type: application/json
+Body (raw JSON):
+json
+{
+  "username": "testusers",
+  "password": "password123",
+  "role": "user"
+}
+<img width="849" height="914" alt="image" src="https://github.com/user-attachments/assets/ce210dd2-4596-42eb-afbc-4c3209b426b4" />
 
-# indian-sweet-shops
->>>>>>> 44ed5a6f09016bce77d2478c75ae3ad0a166b410
-MIT License - feel free to use this project for learning or commercial purposes.
-=======
-# indian-sweet-shops
->>>>>>> 44ed5a6f09016bce77d2478c75ae3ad0a166b410
+
+
+✅ POST /api/auth/login
+URL: http://localhost:5000/api/auth/login
+Method: POST
+Headers:
+Content-Type: application/json
+Body (raw JSON):
+json
+{
+  "username": "admin",
+  "password": "admin123"
+}
+<img width="838" height="879" alt="image" src="https://github.com/user-attachments/assets/9da506c3-7691-4658-ba04-32d29a3ae791" />
+
+# 2. 🍬 Sweets Management
+✅ POST /api/sweets (Add Sweet)
+URL: http://localhost:5000/api/sweets
+Method: POST
+Headers:
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN_HERE
+Body (raw JSON):
+json
+{
+  "name": "Jalebi",
+  "category": "Syrup Sweet",
+  "price": "320.00",
+  "quantity": 50,
+  "description": "Crispy spiral sweet soaked in sugar syrup",
+  "reorderPoint": 10
+}
+
+<img width="830" height="865" alt="image" src="https://github.com/user-attachments/assets/d8ff0ea5-1921-4190-80d6-c3f677497be3" />
+
+✅ GET /api/sweets (Fetch All Sweets)
+URL: http://localhost:5000/api/sweets
+Method: GET
+Headers: None required
+Body: None
+
+<img width="837" height="901" alt="image" src="https://github.com/user-attachments/assets/70a575bc-f572-4f0c-b2fd-9df6f36353da" />
+
+
+✅ GET /api/sweets/search (Search Sweets)
+URL: http://localhost:5000/api/sweets/search?q=kaju
+Method: GET
+Headers: None required
+Body: None
+
+<img width="802" height="899" alt="image" src="https://github.com/user-attachments/assets/72c18036-fc91-4994-bd36-660144d24f5b" />
+
+
+
+✅ PUT /api/sweets/:id (Update Sweet)
+URL: http://localhost:5000/api/sweets/1
+Method: PUT
+Headers:
+Content-Type: application/json
+Authorization: Bearer YOUR_ADMIN_TOKEN_HERE
+Body (raw JSON):
+json
+{
+  "name": "Premium Kaju Katli",
+  "price": "999.00",
+  "quantity": 30,
+  "description": "Premium cashew diamond-shaped sweet with silver foil - Updated!"
+}
+<img width="800" height="802" alt="image" src="https://github.com/user-attachments/assets/f79735a6-aad4-49c4-8c49-570684b02eb2" />
+
+
+✅ DELETE /api/sweets/:id (Delete Sweet)
+URL: http://localhost:5000/api/sweets/1
+Method: DELETE
+Headers:
+Authorization: Bearer YOUR_ADMIN_TOKEN_HERE
+Body: NoneTest with Admin token - Should succeed
+Test with User token - Should return 403 Forbidden
+
+- admin
+<img width="825" height="787" alt="image" src="https://github.com/user-attachments/assets/e2576b23-a5f0-47e8-8026-17dded55cdee" />
+
+- user
+<img width="827" height="749" alt="image" src="https://github.com/user-attachments/assets/b4fde0e9-c319-4b46-979e-425f60f1f1ad" />
+
+
+
+# 3. 📦 Inventory Management
+✅ POST /api/sweets/:id/purchase (Purchase Sweet)
+First, GET the sweet to see current quantity:
+URL: http://localhost:5000/api/sweets/4
+Method: GETThen purchase:
+URL: http://localhost:5000/api/sweets/4/purchase
+Method: POST
+Headers:
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN_HERE
+Body (raw JSON):
+json
+{
+  "quantity": 2
+}
+
+<img width="816" height="671" alt="image" src="https://github.com/user-attachments/assets/1c3cec46-1240-4f9b-b251-f81e7240baf7" />
+
+# 📝 Testing Flow Recommendations
+Step 1: Authentication
+Register a new user
+Login as admin to get admin token
+Login as regular user to get user token
+Step 2: Sweet Management (Admin only)
+Add a new sweet with admin token
+Get all sweets to see the new sweet
+Search for sweets
+Update the sweet details
+Try to delete with user token (should fail)
+Delete with admin token (should succeed)
+Step 3: Inventory Operations
+Get a sweet's current quantity
+Purchase some items (reduces quantity)
+Get the sweet again to confirm quantity reduction
+Try to restock with user token (should fail)
+Restock with admin token (should succeed)
+
+
+LOGIN/SIGNIN PAGE:
+<img width="1255" height="711" alt="image" src="https://github.com/user-attachments/assets/90c3aa44-cb60-4ead-988a-38ae0f1e95eb" />
+
+
+# DASHBOARD SCREENSHOT:
+<img width="1847" height="809" alt="image" src="https://github.com/user-attachments/assets/aa436d88-e8e5-495c-adda-927318720026" />
+
+# ADD sweets under ADMIN login only 
+<img width="850" height="635" alt="image" src="https://github.com/user-attachments/assets/a079ba21-1e1d-47ab-8e1d-e6f74a119c10" />
+
