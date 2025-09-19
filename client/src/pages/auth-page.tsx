@@ -1,28 +1,19 @@
-import { useState } from "react"
-import { AuthForm } from "@/components/auth-form"
+import { useState } from "react";
+import { LoginForm } from "@/components/auth/LoginForm";
+import { RegisterForm } from "@/components/auth/RegisterForm";
 
 export default function AuthPage() {
-  const [authMode, setAuthMode] = useState<"login" | "register">("login")
-  const [isLoading, setIsLoading] = useState(false)
-
-  const handleAuthSubmit = async (data: { username: string; password: string; role?: string }) => {
-    console.log(`${authMode} attempt:`, data)
-    setIsLoading(true)
-    
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false)
-      console.log(`${authMode} successful!`)
-      // TODO: Handle successful auth - store token, redirect to dashboard
-    }, 2000)
-  }
+  const [isLogin, setIsLogin] = useState(true);
 
   return (
-    <AuthForm
-      mode={authMode}
-      onSubmit={handleAuthSubmit}
-      onModeChange={setAuthMode}
-      isLoading={isLoading}
-    />
-  )
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 p-4">
+      <div className="w-full max-w-md">
+        {isLogin ? (
+          <LoginForm onToggleMode={() => setIsLogin(false)} />
+        ) : (
+          <RegisterForm onToggleMode={() => setIsLogin(true)} />
+        )}
+      </div>
+    </div>
+  );
 }
