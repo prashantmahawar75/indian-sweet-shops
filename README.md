@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Sweet Shop Management System
 
 A simplified full-stack web application for managing a sweet shop with customer browsing, purchasing, and admin inventory management features. Built according to the core requirements with user authentication, sweet catalog management, search functionality, and inventory operations.
@@ -159,4 +160,9 @@ npm run test:coverage
 
 ## 📄 License
 
+# indian-sweet-shops
+>>>>>>> 44ed5a6f09016bce77d2478c75ae3ad0a166b410
 MIT License - feel free to use this project for learning or commercial purposes.
+=======
+# indian-sweet-shops
+>>>>>>> 44ed5a6f09016bce77d2478c75ae3ad0a166b410
