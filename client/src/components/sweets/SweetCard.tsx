@@ -89,7 +89,7 @@ export function SweetCard({ sweet, onPurchase }: SweetCardProps) {
         <CardTitle className="text-lg">{sweet.name}</CardTitle>
         <div className="flex items-center justify-between">
           <Badge variant="secondary">{sweet.category}</Badge>
-          <span className="text-2xl font-bold text-primary">${sweet.price}</span>
+          <span className="text-2xl font-bold text-primary">₹{sweet.price}</span>
         </div>
       </CardHeader>
       

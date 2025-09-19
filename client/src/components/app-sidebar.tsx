@@ -1,4 +1,4 @@
-import { Home, Package, ShoppingCart, Plus, BarChart3, Settings, Candy } from "lucide-react"
+import { Home, Package, Plus, Candy } from "lucide-react"
 import { Link, useLocation } from "wouter"
 import {
   Sidebar,
@@ -38,21 +38,6 @@ const menuItems = [
     title: "Add Sweet",
     url: "/add-sweet",
     icon: Plus,
-  },
-  {
-    title: "Sales",
-    url: "/sales",
-    icon: ShoppingCart,
-  },
-  {
-    title: "Analytics",
-    url: "/analytics",
-    icon: BarChart3,
-  },
-  {
-    title: "Settings",
-    url: "/settings",
-    icon: Settings,
   },
 ]
 

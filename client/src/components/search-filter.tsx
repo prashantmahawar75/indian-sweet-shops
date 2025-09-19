@@ -52,7 +52,7 @@ export function SearchFilter({
   const clearFilters = () => {
     console.log("Clearing all filters")
     onCategoryFilter("")
-    onPriceFilter(0, 1000)
+    onPriceFilter(0, 10000)
     setSearchQuery("")
   }
 
@@ -109,10 +109,10 @@ export function SearchFilter({
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="">Any price</SelectItem>
-                  <SelectItem value="0-5">$0 - $5</SelectItem>
-                  <SelectItem value="5-15">$5 - $15</SelectItem>
-                  <SelectItem value="15-30">$15 - $30</SelectItem>
-                  <SelectItem value="30-1000">$30+</SelectItem>
+                  <SelectItem value="0-500">₹0 - ₹500</SelectItem>
+                  <SelectItem value="500-750">₹500 - ₹750</SelectItem>
+                  <SelectItem value="750-1000">₹750 - ₹1000</SelectItem>
+                  <SelectItem value="1000-10000">₹1000+</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -125,7 +125,7 @@ export function SearchFilter({
                 <Badge variant="secondary">Category: {activeFilters.category}</Badge>
               )}
               {activeFilters.priceRange && (
-                <Badge variant="secondary">Price: ${activeFilters.priceRange}</Badge>
+                <Badge variant="secondary">Price: ₹{activeFilters.priceRange}</Badge>
               )}
               <Button variant="ghost" size="sm" onClick={clearFilters} data-testid="button-clear-filters">
                 Clear all

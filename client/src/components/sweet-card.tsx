@@ -70,7 +70,7 @@ export function SweetCard({ sweet, isAdmin = false, onPurchase, onEdit, onDelete
         
         <div className="flex items-center justify-between mb-3">
           <span className="text-2xl font-bold text-primary" data-testid={`text-sweet-price-${sweet.id}`}>
-            ${sweet.price.toFixed(2)}
+            ₹{sweet.price}
           </span>
           <div className="text-right">
             <div className={cn("text-sm font-medium", 

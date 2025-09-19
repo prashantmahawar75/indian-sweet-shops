@@ -1,21 +1,12 @@
-import { eq, and, or, like, gte, lte, desc } from 'drizzle-orm';
+import { eq, and, or, like, gte, lte } from 'drizzle-orm';
 import { db } from './db';
 import { 
   type User, 
   type InsertUser, 
   type Sweet, 
   type InsertSweet,
-  type Order,
-  type InsertOrder,
-  type OrderItem,
-  type InsertOrderItem,
-  type InventoryAdjustment,
-  type InsertInventoryAdjustment,
   users, 
-  sweets, 
-  orders, 
-  orderItems, 
-  inventoryAdjustments 
+  sweets
 } from "@shared/schema";
 
 export interface SweetFilters {
@@ -42,11 +33,6 @@ export interface IStorage {
   // Inventory operations
   purchaseSweet(sweetId: string, quantity: number): Promise<void>;
   restockSweet(sweetId: string, quantity: number): Promise<void>;
-  recordInventoryAdjustment(adjustment: InsertInventoryAdjustment): Promise<void>;
-  
-  // Order operations
-  createOrder(order: InsertOrder, items: InsertOrderItem[]): Promise<Order>;
-  getUserOrders(userId: string): Promise<Order[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -167,12 +153,6 @@ export class DatabaseStorage implements IStorage {
           updatedAt: new Date()
         })
         .where(eq(sweets.id, sweetId));
-      
-      await tx.insert(inventoryAdjustments).values({
-        sweetId,
-        delta: -quantity,
-        reason: 'sale'
-      });
     });
   }
 
@@ -190,39 +170,7 @@ export class DatabaseStorage implements IStorage {
           updatedAt: new Date()
         })
         .where(eq(sweets.id, sweetId));
-      
-      await tx.insert(inventoryAdjustments).values({
-        sweetId,
-        delta: quantity,
-        reason: 'restock'
-      });
     });
-  }
-
-  async recordInventoryAdjustment(adjustment: InsertInventoryAdjustment): Promise<void> {
-    await db.insert(inventoryAdjustments).values(adjustment);
-  }
-
-  // Order operations
-  async createOrder(order: InsertOrder, items: InsertOrderItem[]): Promise<Order> {
-    return await db.transaction(async (tx) => {
-      const newOrder = await tx.insert(orders).values(order).returning();
-      
-      for (const item of items) {
-        await tx.insert(orderItems).values({
-          ...item,
-          orderId: newOrder[0].id
-        });
-      }
-      
-      return newOrder[0];
-    });
-  }
-
-  async getUserOrders(userId: string): Promise<Order[]> {
-    return db.select().from(orders)
-      .where(eq(orders.customerId, userId))
-      .orderBy(desc(orders.createdAt));
   }
 }
 
@@ -350,10 +298,6 @@ class MemoryStorage implements IStorage {
     }
   ];
 
-  private orders: Order[] = [];
-  private orderItems: OrderItem[] = [];
-  private inventoryAdjustments: InventoryAdjustment[] = [];
-
   async getUser(id: string): Promise<User | undefined> {
     return this.users.find(u => u.id === id);
   }
@@ -470,31 +414,6 @@ class MemoryStorage implements IStorage {
     
     sweet.quantity += quantity;
     sweet.updatedAt = new Date();
-  }
-
-  async recordInventoryAdjustment(adjustment: InsertInventoryAdjustment): Promise<void> {
-    // In-memory implementation - just log it
-    console.log('Inventory adjustment:', adjustment);
-  }
-
-  async createOrder(order: InsertOrder, items: InsertOrderItem[]): Promise<Order> {
-    const newOrder: Order = {
-      id: String(this.orders.length + 1),
-      status: order.status || 'pending',
-      customerId: order.customerId || null,
-      total: order.total,
-      customerName: order.customerName || null,
-      customerEmail: order.customerEmail || null,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
-    this.orders.push(newOrder);
-    return newOrder;
-  }
-
-  async getUserOrders(userId: string): Promise<Order[]> {
-    return this.orders.filter(o => o.customerId === userId)
-      .sort((a, b) => b.createdAt!.getTime() - a.createdAt!.getTime());
   }
 }
 

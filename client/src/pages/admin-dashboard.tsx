@@ -242,7 +242,7 @@ export default function AdminDashboard() {
                   <TableCell>
                     <Badge variant="secondary">{sweet.category}</Badge>
                   </TableCell>
-                  <TableCell>${sweet.price}</TableCell>
+                  <TableCell>₹{sweet.price}</TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
                       <span className={sweet.quantity === 0 ? 'text-red-500' : sweet.quantity <= (sweet.reorderPoint || 5) ? 'text-yellow-600' : 'text-green-600'}>
