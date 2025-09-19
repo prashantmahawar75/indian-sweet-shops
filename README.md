@@ -170,17 +170,24 @@ npm run test:coverage
 
 # 1. 🔐 User Authentication
 ✅ POST /api/auth/register
+
 URL: http://localhost:5000/api/auth/register
+
 Method: POST
+
 Headers:
+
 Content-Type: application/json
+
 Body (raw JSON):
+```bash
 json
 {
   "username": "testusers",
   "password": "password123",
   "role": "user"
 }
+```
 <img width="849" height="914" alt="image" src="https://github.com/user-attachments/assets/ce210dd2-4596-42eb-afbc-4c3209b426b4" />
 
 
@@ -201,12 +208,19 @@ json
 <img width="838" height="879" alt="image" src="https://github.com/user-attachments/assets/9da506c3-7691-4658-ba04-32d29a3ae791" />
 
 # 2. 🍬 Sweets Management
+
 ✅ POST /api/sweets (Add Sweet)
+
 URL: http://localhost:5000/api/sweets
+
 Method: POST
+
 Headers:
+
 Content-Type: application/json
+
 Authorization: Bearer YOUR_TOKEN_HERE
+
 Body (raw JSON):
 ```bash
 json
@@ -223,18 +237,26 @@ json
 <img width="830" height="865" alt="image" src="https://github.com/user-attachments/assets/d8ff0ea5-1921-4190-80d6-c3f677497be3" />
 
 ✅ GET /api/sweets (Fetch All Sweets)
+
 URL: http://localhost:5000/api/sweets
+
 Method: GET
+
 Headers: None required
+
 Body: None
 
 <img width="837" height="901" alt="image" src="https://github.com/user-attachments/assets/70a575bc-f572-4f0c-b2fd-9df6f36353da" />
 
 
 ✅ GET /api/sweets/search (Search Sweets)
+
 URL: http://localhost:5000/api/sweets/search?q=kaju
+
 Method: GET
+
 Headers: None required
+
 Body: None
 
 <img width="802" height="899" alt="image" src="https://github.com/user-attachments/assets/72c18036-fc91-4994-bd36-660144d24f5b" />
@@ -242,11 +264,17 @@ Body: None
 
 
 ✅ PUT /api/sweets/:id (Update Sweet)
+
 URL: http://localhost:5000/api/sweets/1
+
 Method: PUT
+
 Headers:
+
 Content-Type: application/json
+
 Authorization: Bearer YOUR_ADMIN_TOKEN_HERE
+
 Body (raw JSON):
 ```bash
 json
@@ -261,11 +289,17 @@ json
 
 
 ✅ DELETE /api/sweets/:id (Delete Sweet)
+
 URL: http://localhost:5000/api/sweets/1
+
 Method: DELETE
+
 Headers:
+
 Authorization: Bearer YOUR_ADMIN_TOKEN_HERE
+
 Body: NoneTest with Admin token - Should succeed
+
 Test with User token - Should return 403 Forbidden
 
 - admin
@@ -277,15 +311,25 @@ Test with User token - Should return 403 Forbidden
 
 
 # 3. 📦 Inventory Management
+
 ✅ POST /api/sweets/:id/purchase (Purchase Sweet)
+
 First, GET the sweet to see current quantity:
+
 URL: http://localhost:5000/api/sweets/4
+
 Method: GETThen purchase:
+
 URL: http://localhost:5000/api/sweets/4/purchase
+
 Method: POST
+
 Headers:
+
 Content-Type: application/json
+
 Authorization: Bearer YOUR_TOKEN_HERE
+
 Body (raw JSON):
 ```bash
 json
@@ -297,26 +341,43 @@ json
 <img width="816" height="671" alt="image" src="https://github.com/user-attachments/assets/1c3cec46-1240-4f9b-b251-f81e7240baf7" />
 
 # 📝 Testing Flow Recommendations
-Step 1: Authentication
-Register a new user
-Login as admin to get admin token
-Login as regular user to get user token
-Step 2: Sweet Management (Admin only)
-Add a new sweet with admin token
-Get all sweets to see the new sweet
-Search for sweets
-Update the sweet details
-Try to delete with user token (should fail)
-Delete with admin token (should succeed)
-Step 3: Inventory Operations
-Get a sweet's current quantity
-Purchase some items (reduces quantity)
-Get the sweet again to confirm quantity reduction
-Try to restock with user token (should fail)
-Restock with admin token (should succeed)
+
+### Step 1: Authentication
+
+- Register a new user
+
+- Login as admin to get admin token
+
+- Login as regular user to get user token
+
+### Step 2: Sweet Management (Admin only)
+
+- Add a new sweet with admin token
+
+- Get all sweets to see the new sweet
+
+- Search for sweets
+
+- Update the sweet details
+
+- Try to delete with user token (should fail)
+
+- Delete with admin token (should succeed)
+
+### Step 3: Inventory Operations
+
+- Get a sweet's current quantity
+
+-Purchase some items (reduces quantity)
+
+- Get the sweet again to confirm quantity reduction
+
+- Try to restock with user token (should fail)
+
+- Restock with admin token (should succeed)
 
 
-LOGIN/SIGNIN PAGE:
+# LOGIN/SIGNIN PAGE:
 <img width="1255" height="711" alt="image" src="https://github.com/user-attachments/assets/90c3aa44-cb60-4ead-988a-38ae0f1e95eb" />
 
 
