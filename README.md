@@ -147,6 +147,17 @@ Make sure to:
 3. Run database migrations: `npm run db:push`
 4. Seed initial data: `npm run seed`
 
+
+### Environment Variables
+
+```env
+DATABASE_URL="postgresql://user:pass@host/db?sslmode=require"
+JWT_SECRET="your-secure-jwt-secret"
+PORT=5000
+NODE_ENV=development
+```
+
+
 ## 🧪 Testing
 
 ```bash
@@ -180,11 +191,13 @@ Method: POST
 Headers:
 Content-Type: application/json
 Body (raw JSON):
+```bash
 json
 {
   "username": "admin",
   "password": "admin123"
 }
+```
 <img width="838" height="879" alt="image" src="https://github.com/user-attachments/assets/9da506c3-7691-4658-ba04-32d29a3ae791" />
 
 # 2. 🍬 Sweets Management
@@ -195,6 +208,7 @@ Headers:
 Content-Type: application/json
 Authorization: Bearer YOUR_TOKEN_HERE
 Body (raw JSON):
+```bash
 json
 {
   "name": "Jalebi",
@@ -204,6 +218,7 @@ json
   "description": "Crispy spiral sweet soaked in sugar syrup",
   "reorderPoint": 10
 }
+```
 
 <img width="830" height="865" alt="image" src="https://github.com/user-attachments/assets/d8ff0ea5-1921-4190-80d6-c3f677497be3" />
 
@@ -233,6 +248,7 @@ Headers:
 Content-Type: application/json
 Authorization: Bearer YOUR_ADMIN_TOKEN_HERE
 Body (raw JSON):
+```bash
 json
 {
   "name": "Premium Kaju Katli",
@@ -240,6 +256,7 @@ json
   "quantity": 30,
   "description": "Premium cashew diamond-shaped sweet with silver foil - Updated!"
 }
+```
 <img width="800" height="802" alt="image" src="https://github.com/user-attachments/assets/f79735a6-aad4-49c4-8c49-570684b02eb2" />
 
 
@@ -270,10 +287,12 @@ Headers:
 Content-Type: application/json
 Authorization: Bearer YOUR_TOKEN_HERE
 Body (raw JSON):
+```bash
 json
 {
   "quantity": 2
 }
+```
 
 <img width="816" height="671" alt="image" src="https://github.com/user-attachments/assets/1c3cec46-1240-4f9b-b251-f81e7240baf7" />
 
